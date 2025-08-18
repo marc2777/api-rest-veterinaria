@@ -7,7 +7,12 @@ export const getEmpleados=async (req,res)=>{
         FROM personas p INNER JOIN empleados e ON p.persona_id = e.persona_id
         LEFT JOIN cargos c ON e.cargo_id=c.cargo_id; `);
     res.json(rows);    
+    res.json({
+        mensaje: "este es una prueba",
+        clientes: rows
+    });
 }
+
 
 
 
