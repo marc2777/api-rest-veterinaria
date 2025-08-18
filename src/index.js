@@ -6,7 +6,7 @@ const app =express();
 const PORT=3000;
 app.use(express.json());
 app.get('/',(req,res)=>{
-    res.send("Bienvenido al servidor de la VETERINARIA");
+    res.send("Bienvenido al servidor de la VET");
 })
 app.use('/api',empleadosRoutes);
 app.use('/api',clientesRoutes);
