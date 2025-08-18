@@ -1,0 +1,19 @@
+{
+  "name": "apirest-veterinaria",
+  "version": "1.0.0",
+  "description": "creacion de una api-rest para una veterinaria",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev":"nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
