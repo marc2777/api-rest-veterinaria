@@ -83,7 +83,7 @@ app.get("/mascotas", (req, res) => {
 
 //  Tratamientos
 app.get("/tratamientos", (req, res) => {
-  const sql = "SELECT * FROM tratamientos";
+  const sql = "SELECT tratamiento_id, cantidad, precio FROM consulta_tratamientos";
   conexion.query(sql, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
