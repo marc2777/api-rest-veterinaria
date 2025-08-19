@@ -18,29 +18,20 @@ conexion.connect(err => {
   console.log('Conexión exitosa a la base de datos veterinaria');
 });
 
-
-function formatPlain(result) {
-  return result.map(row => {
-    return Object.entries(row)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n');
-  }).join('\n\n'); 
-}
-
 // ======================
 // ENDPOINTS GET
 // ======================
 
-// 1️⃣ Personas
+//  Persona
 app.get("/personas", (req, res) => {
   const sql = "SELECT * FROM personas";
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 2️⃣ Clientes
+//  Clientes
 app.get("/clientes", (req, res) => {
   const sql = `
     SELECT c.*, p.nombre, p.primer_apellido, p.segundo_apellido
@@ -48,21 +39,21 @@ app.get("/clientes", (req, res) => {
     LEFT JOIN personas p ON c.persona_id = p.persona_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 3️⃣ Cargos
+// Cargos
 app.get("/cargos", (req, res) => {
   const sql = "SELECT * FROM cargos";
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 4️⃣ Empleados
+//  Empleados
 app.get("/empleados", (req, res) => {
   const sql = `
     SELECT e.*, p.nombre, p.primer_apellido, c.nombre AS cargo
@@ -71,48 +62,52 @@ app.get("/empleados", (req, res) => {
     LEFT JOIN cargos c ON e.cargo_id = c.cargo_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 5️⃣ Mascotas
+//  Mascotas
 app.get("/mascotas", (req, res) => {
   const sql = `
-    SELECT m.*, c.nombre AS nombre_cliente
+    SELECT m.*, p.nombre AS nombre_cliente, p.primer_apellido AS apellido_cliente
     FROM mascotas m
     LEFT JOIN clientes c ON m.cliente_id = c.cliente_id
+    LEFT JOIN personas p ON c.persona_id = p.persona_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 6️⃣ Tratamientos
+//  Tratamientos
 app.get("/tratamientos", (req, res) => {
   const sql = "SELECT * FROM tratamientos";
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
 // 7️⃣ Citas
 app.get("/citas", (req, res) => {
   const sql = `
-    SELECT ci.*, m.nombre AS mascota, e.nombre AS empleado
+    SELECT ci.*, m.nombre AS mascota, mp.nombre AS cliente_mascota, ep.nombre AS empleado
     FROM citas ci
     LEFT JOIN mascotas m ON ci.mascota_id = m.mascota_id
+    LEFT JOIN clientes mc ON m.cliente_id = mc.cliente_id
+    LEFT JOIN personas mp ON mc.persona_id = mp.persona_id
     LEFT JOIN empleados e ON ci.empleado_id = e.empleado_id
+    LEFT JOIN personas ep ON e.persona_id = ep.persona_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 8️⃣ Consultas
+//  Consultas
 app.get("/consultas", (req, res) => {
   const sql = `
     SELECT co.*, ci.fecha, ci.hora, m.nombre AS mascota
@@ -121,12 +116,12 @@ app.get("/consultas", (req, res) => {
     LEFT JOIN mascotas m ON ci.mascota_id = m.mascota_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
-// 9️⃣ Consulta_Tratamientos
+//  Consulta_Tratamientos
 app.get("/consulta_tratamientos", (req, res) => {
   const sql = `
     SELECT ct.*, t.nombre AS tratamiento
@@ -134,8 +129,8 @@ app.get("/consulta_tratamientos", (req, res) => {
     LEFT JOIN tratamientos t ON ct.tratamiento_id = t.tratamiento_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
@@ -143,21 +138,22 @@ app.get("/consulta_tratamientos", (req, res) => {
 app.get("/roles", (req, res) => {
   const sql = "SELECT * FROM roles";
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
 // 1️⃣1️⃣ Usuarios
 app.get("/usuarios", (req, res) => {
   const sql = `
-    SELECT u.*, e.nombre AS empleado
+    SELECT u.*, p.nombre AS empleado, p.primer_apellido AS apellido_empleado
     FROM usuarios u
     LEFT JOIN empleados e ON u.empleado_id = e.empleado_id
+    LEFT JOIN personas p ON e.persona_id = p.persona_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
@@ -170,8 +166,8 @@ app.get("/usuario_rol", (req, res) => {
     LEFT JOIN roles r ON ur.rol_id = r.rol_id
   `;
   conexion.query(sql, (err, result) => {
-    if (err) return res.status(500).send(err.message);
-    res.type('text/plain').send(formatPlain(result));
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
   });
 });
 
