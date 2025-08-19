@@ -24,7 +24,7 @@ conexion.connect(err => {
 
 //  Persona
 app.get("/personas", (req, res) => {
-  const sql = "SELECT * FROM personas";
+  const sql = "SELECT telefono, nombre, email FROM personas";
   conexion.query(sql, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
