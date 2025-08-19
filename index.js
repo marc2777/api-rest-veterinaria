@@ -5,12 +5,14 @@ const puerto = 3000;
 
 app.use(express.json());
 
-// Conexión a MySQL
+
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '2489528',
-  database: 'veterinaria'
+  password: '1234',
+  database: 'veterinaria',
+  port:3307
+  
 });
 
 conexion.connect(err => {
@@ -83,12 +85,16 @@ app.get("/mascotas", (req, res) => {
 
 //  Tratamientos
 app.get("/tratamientos", (req, res) => {
-  const sql = "SELECT * FROM tratamientos";
+  const sql = `
+    SELECT nombre, descripcion, precio
+    FROM tratamientos
+  `;
   conexion.query(sql, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
   });
 });
+
 
 // 7️⃣ Citas
 app.get("/citas", (req, res) => {
