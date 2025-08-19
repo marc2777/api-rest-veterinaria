@@ -70,7 +70,7 @@ app.get("/empleados", (req, res) => {
 //  Mascotas
 app.get("/mascotas", (req, res) => {
   const sql = `
-    SELECT m.*, p.nombre AS nombre_cliente, p.primer_apellido AS apellido_cliente
+    SELECT m.nombre,m.especie,m.raza
     FROM mascotas m
     LEFT JOIN clientes c ON m.cliente_id = c.cliente_id
     LEFT JOIN personas p ON c.persona_id = p.persona_id
