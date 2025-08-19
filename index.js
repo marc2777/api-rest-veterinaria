@@ -22,7 +22,7 @@ conexion.connect(err => {
 // ENDPOINTS GET
 // ======================
 
-//  Personas
+//  Persona
 app.get("/personas", (req, res) => {
   const sql = "SELECT * FROM personas";
   conexion.query(sql, (err, result) => {
