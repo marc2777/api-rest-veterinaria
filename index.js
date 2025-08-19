@@ -9,10 +9,15 @@ app.use(express.json());
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
+<<<<<<< HEAD
   password: '1234',
   database: 'veterinaria',
   port:3307
   
+=======
+  password: 'mipmopmap26PanQ',
+  database: 'veterinaria'
+>>>>>>> 46dd13eee6ffed3671bd0e2ff88ba7e8cd0a795f
 });
 
 conexion.connect(err => {
@@ -26,7 +31,7 @@ conexion.connect(err => {
 
 //  Persona
 app.get("/personas", (req, res) => {
-  const sql = "SELECT * FROM personas";
+  const sql = "SELECT telefono, nombre, email FROM personas";
   conexion.query(sql, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
@@ -72,7 +77,7 @@ app.get("/empleados", (req, res) => {
 //  Mascotas
 app.get("/mascotas", (req, res) => {
   const sql = `
-    SELECT m.*, p.nombre AS nombre_cliente, p.primer_apellido AS apellido_cliente
+    SELECT m.nombre,m.especie,m.raza
     FROM mascotas m
     LEFT JOIN clientes c ON m.cliente_id = c.cliente_id
     LEFT JOIN personas p ON c.persona_id = p.persona_id
@@ -85,10 +90,14 @@ app.get("/mascotas", (req, res) => {
 
 //  Tratamientos
 app.get("/tratamientos", (req, res) => {
+<<<<<<< HEAD
   const sql = `
     SELECT nombre, descripcion, precio
     FROM tratamientos
   `;
+=======
+  const sql = "SELECT tratamiento_id, cantidad, precio FROM consulta_tratamientos";
+>>>>>>> 46dd13eee6ffed3671bd0e2ff88ba7e8cd0a795f
   conexion.query(sql, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
