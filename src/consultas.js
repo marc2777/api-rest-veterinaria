@@ -68,7 +68,7 @@ router.delete("/del/:cod", async (req, res) => {
       [consulta_id]
     );
 
-    res.json({ mensaje: "Consulta eliminada correctamente", result });
+    res.json({ mensaje: "Consulta eliminada", result });
     console.log("Consulta eliminada correctamente");
   } catch (error) {
     console.error("Error al eliminar consulta:", error);

@@ -7,6 +7,10 @@ import consulta_tratamientos from "./src/consulta_tratamientos.js";
 import usuarios from "./src/usuarios.js";
 import roles from "./src/roles.js";
 import usuarioRoles from "./src/usuario_roles.js";
+import cargos from "./src/cargos.js";
+import citas from "./src/citas.js";
+import mascotas from "./src/mascotas.js";
+
 
 
 const app = express();
@@ -22,7 +26,9 @@ app.use('/consulta_tratamiento',consulta_tratamientos);
 app.use("/usuarios", usuarios);
 app.use("/roles", roles);
 app.use("/usuario_roles", usuarioRoles);
-
+app.use("/cargos", cargos);
+app.use("/citas", citas); 
+app.use("/mascotas", mascotas);
 
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en puerto ${PORT}...`);

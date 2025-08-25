@@ -55,7 +55,6 @@ router.put("/:cod", async (req, res) => {
     );
 
     res.json({ mensaje: "Tratamiento actualizado correctamente" });
-    console.log("Tratamiento actualizado correctamente");
   } catch (error) {
     console.log("Error en update:", error);
     res.status(500).json({ error: "Error en el servidor" });

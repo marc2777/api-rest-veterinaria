@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     res.json({ mensaje: "Consulta tratamiento agregado correctamente" });
     console.log("Consulta tratamiento agregado correctamente");
   } catch (error) {
-    console.error("Error al insertar consulta tratamiento:", error);
+    console.error("Error al insertar consulta_tratamiento:", error);
     res.status(500).json({ error: "Error en el servidor" });
   }
 });
@@ -69,8 +69,8 @@ router.delete("/del/:cod", async (req, res) => {
       [id]
     );
 
-    res.json({ mensaje: "Consulta tratamiento eliminado correctamente", result });
-    console.log("Consulta tratamiento eliminado correctamente");
+    res.json({ mensaje: "Consulta_tratamiento eliminado correctamente", result });
+    console.log("Consulta_tratamiento eliminado correctamente");
   } catch (error) {
     console.error("Error al eliminar consulta_tratamiento:", error);
     res.status(500).json({ error: "Error en el servidor" });
